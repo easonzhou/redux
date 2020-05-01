@@ -25,14 +25,15 @@
     "build:umd": "cross-env BABEL_ENV=es NODE_ENV=development rollup -c -i src/index.js -o dist/redux.js",
     "build:umd:min": "cross-env BABEL_ENV=es NODE_ENV=production rollup -c -i src/index.js -o dist/redux.min.js",
     "build": "yarn run build:commonjs && yarn run build:es && yarn run build:umd && yarn run build:umd:min",
-    "prepublish": "yarn run clean && yarn run lint && yarn test && yarn run build && check-es3-syntax lib/ dist/ --kill --print",
+    "prepublish": "yarn run snyk-protect && yarn run clean && yarn run lint && yarn test && yarn run build && check-es3-syntax lib/ dist/ --kill --print",
     "examples:lint": "eslint examples",
     "examples:test": "cross-env CI=true babel-node examples/testAll.js",
     "docs:clean": "rimraf _book",
     "docs:prepare": "gitbook install",
     "docs:build": "yarn run docs:prepare && gitbook build -g reactjs/redux && cp logo/apple-touch-icon.png _book/gitbook/images/apple-touch-icon-precomposed-152.png && cp logo/favicon.ico _book/gitbook/images",
     "docs:watch": "yarn run docs:prepare && gitbook serve",
-    "docs:publish": "yarn run docs:clean && yarn run docs:build && cp CNAME _book && cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:reactjs/redux gh-pages --force"
+    "docs:publish": "yarn run docs:clean && yarn run docs:build && cp CNAME _book && cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:reactjs/redux gh-pages --force",
+    "snyk-protect": "snyk protect"
   },
   "repository": {
     "type": "git",
@@ -64,7 +65,8 @@
     "lodash": "^4.2.1",
     "lodash-es": "^4.2.1",
     "loose-envify": "^1.1.0",
-    "symbol-observable": "^1.0.3"
+    "symbol-observable": "^1.0.3",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "babel-cli": "^6.3.15",
@@ -130,5 +132,6 @@
   },
   "jest": {
     "testRegex": "(/test/.*\\.spec.js)$"
-  }
+  },
+  "snyk": true
 }
